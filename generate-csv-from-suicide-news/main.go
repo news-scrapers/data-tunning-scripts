@@ -23,9 +23,12 @@ func GenerateCsvFromSuicideNews() {
 		}
 	}
 	csv := models.ConvertToCsv(accumulator)
-	csv = sortCsv(csv)
 	bytes := []byte(csv)
 	ioutil.WriteFile("../data/processed/processed_news_suicide_data/scraped_news_suicide_data.csv", bytes, 0644)
+
+	csv = sortCsv(csv)
+	bytes2 := []byte(csv)
+	ioutil.WriteFile("../data/processed/processed_news_suicide_data/scraped_news_suicide_data_sorted.csv", bytes2, 0644)
 }
 
 func generateMonthCode(date time.Time) (monthCode string, month string, year string) {
