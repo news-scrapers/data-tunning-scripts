@@ -21,6 +21,35 @@ type NewScraped struct {
 	ID        string    `json:"id"`
 }
 
+func FindAllFromFilteredCollection() []NewScraped {
+	ConnectDb()
+	db := GetDb()
+
+	fmt.Println("searching all news ")
+	collection := db.Collection("FilteredNewsContentScraped")
+	// $text: { $search: "suicidio" }
+	results := []NewScraped{}
+	cur, err := collection.Find(context.Background(), bson.M{}, nil)
+	if err != nil {
+		fmt.Println("error found")
+		panic(err)
+	}
+	for cur.Next(context.Background()) {
+
+		// create a value into which the single document can be decoded
+		var elem NewScraped
+		err := cur.Decode(&elem)
+		if err != nil {
+			fmt.Println("error found")
+			fmt.Println(err)
+		}
+		results = append(results, elem)
+	}
+
+	fmt.Printf("found %v", len(results))
+	return results
+}
+
 func SearchNewsWithText(text string) []NewScraped {
 	ConnectDb()
 	db := GetDb()
