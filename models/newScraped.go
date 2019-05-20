@@ -2,7 +2,9 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"time"
 
@@ -19,6 +21,10 @@ type NewScraped struct {
 	NewsPaper string    `json:"newspaper"`
 	ScraperID string    `json:"scraper_id" bson:"scraper_id"`
 	ID        string    `json:"id"`
+}
+
+type SearchResults struct {
+	NewsScrapedResults []NewScraped `json:"news_scraped_result"`
 }
 
 func FindAllFromFilteredCollection() []NewScraped {
@@ -95,4 +101,17 @@ func CreateManyNewsScraped(newsScraped []NewScraped) error {
 		return err
 	}
 	return nil
+}
+
+func (searchResults *SearchResults) SaveToFile(path string) {
+	file, errMarshal := json.MarshalIndent(searchResults, "", " ")
+	if errMarshal != nil {
+		panic(errMarshal)
+	}
+	errSaving := ioutil.WriteFile(path, file, 0644)
+	if errSaving != nil {
+		if errMarshal != nil {
+			panic(errSaving)
+		}
+	}
 }
