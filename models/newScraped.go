@@ -85,6 +85,41 @@ func SearchNewsWithText(text string) []NewScraped {
 	return results
 }
 
+func SearchNewsWithTextAvoiding(text string, avoid []string) []NewScraped {
+	ConnectDb()
+	db := GetDb()
+
+	fmt.Println("searching news with text -->" + text)
+	collection := db.Collection("NewsContentScraped")
+	// $text: { $search: "suicidio" }
+	results := []NewScraped{}
+
+	avoidSentence := ""
+	for _, word := range avoid {
+		avoidSentence = avoidSentence + "-" + word + " "
+	}
+	fmt.Println(avoidSentence)
+	cur, err := collection.Find(context.Background(), bson.M{"$text": bson.M{"$search": text + " " + avoidSentence}}, nil)
+	if err != nil {
+		fmt.Println("error found")
+		panic(err)
+	}
+	for cur.Next(context.Background()) {
+
+		// create a value into which the single document can be decoded
+		var elem NewScraped
+		err := cur.Decode(&elem)
+		if err != nil {
+			fmt.Println("error found")
+			fmt.Println(err)
+		}
+		results = append(results, elem)
+	}
+
+	fmt.Printf("found %v", len(results))
+	return results
+}
+
 func CreateManyNewsScraped(newsScraped []NewScraped) error {
 	ConnectDb()
 
