@@ -46,10 +46,10 @@ func contaisExcluded(str string, excludedWords []string) bool {
 }
 
 func generateMonthCode(date time.Time) (monthCode string, month string, year string) {
-	formatedDate := date.Format("2006/01/02")
-	month = strings.Split(formatedDate, "/")[1]
-	year = strings.Split(formatedDate, "/")[0]
-	monthCode = year + month + "00"
+	formatedDate := date.Format("2006-01-02")
+	month = strings.Split(formatedDate, "-")[1]
+	year = strings.Split(formatedDate, "-")[0]
+	monthCode = year + "-" + month + "-" + "01"
 	return monthCode, month, year
 }
 
