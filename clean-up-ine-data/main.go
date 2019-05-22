@@ -44,7 +44,7 @@ func cleanUpCsv(csvStr string, year string) (csvAll string, csvAmbos string, csv
 			month := formatMonth(currentMonthInLine)
 			line = strings.ReplaceAll(line, "    ", "")
 			line = strings.ReplaceAll(line, ".0", "")
-			newLine := year + month + "00;" + line
+			newLine := year + "-" + month + "-01;" + line
 			resultCsvAll = append(resultCsvAll, newLine)
 
 			if strings.Contains(line, "Ambos") {

@@ -25,9 +25,9 @@ func main() {
 	fmt.Println("")
 	fmt.Printf("Saving %v news to file", len(resultsWithoutRepetition))
 
-	// searchResults := models.SearchResults{}
-	// searchResults.NewsScrapedResults = resultsWithoutRepetition
-	// searchResults.SaveToFile("resultsSuicide.json")
+	searchResults := models.SearchResults{}
+	searchResults.NewsScrapedResults = resultsWithoutRepetition
+	searchResults.SaveToFile("resultsSuicide.json")
 
 	fmt.Println("")
 	fmt.Printf("Saving %v news to db", len(resultsWithoutRepetition))
