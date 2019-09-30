@@ -1,7 +1,6 @@
-setwd("/home/hugo/Documents/hugo_documentos/github/data-tunning-scripts/plot-time-series-data")
-ine_data <- read.csv("procesado_suicidio_edad_ambos_hasta_2007.csv",  header=TRUE, sep=";")
-scraping_data_filtered <- read.csv("scraped_news_suicide_data_sorted_2017_2007_filtrado_no_outliers.csv",  header=TRUE, sep=";")
-all_data <- read.csv("all_2007-2017_no_outliers.csv",  header=TRUE, sep=";")
+ine_data <- read.csv("./procesado_suicidio_edad_ambos_hasta_2007.csv",  header=TRUE, sep=";")
+scraping_data_filtered <- read.csv("./scraped_news_suicide_data_sorted_2017_2007_filtrado_no_outliers.csv",  header=TRUE, sep=";")
+all_data <- read.csv("./all_2007-2017_no_outliers.csv",  header=TRUE, sep=";")
 # Installation
 # install.packages('ggplot2')
 # Loading
@@ -21,15 +20,28 @@ plot(all_data$noticias_suicidio, all_data$suicidios, col = "blue", main = "", xl
 lm(all_data$noticias_suicidio ~ all_data$suicidios)
 abline(lm(all_data$noticias_suicidio ~ all_data$suicidios))
 
+# Pearson correlation: not significative, although it is not the best method since we are
+# working with temporal series
+
 cor(all_data$noticias_suicidio, all_data$suicidios)
-
-
-# chi-squared test of independence NOT VALID, categorized data only
-tbl = table(all_data$suicidios, all_data$noticias_suicidio) 
-chisq.test(tbl) 
 
 # https://github.com/AnaBPazos/AlterCorr/blob/master/R/AlterCorrM.R
 
-# chi-squared test of independence NOT VALID, categorized data only
-# Kendall test
+# Kendall test (non parametric test, alternative to pearson)
 cor.test(all_data$suicidios, all_data$noticias_suicidio, method = "kendall")
+# it is significative but we can not fully trust it since we are working with time series
+
+
+# cross-correlation of TIME SERIES
+ccf(all_data$noticias_suicidio, all_data$suicidios)
+
+# interpretation 
+# https://support.minitab.com/en-us/minitab/18/help-and-how-to/modeling-statistics/time-series/how-to/cross-correlation/interpret-the-results/all-statistics-and-graphs/
+
+# threadshole
+2/sqrt(length(all_data$noticias_suicidio) - 15)
+
+# example ->
+# https://nwfsc-timeseries.github.io/atsa-labs/sec-tslab-correlation-within-and-among-time-series.html
+
+# in our case: We find that suicide cases are relatively high after a periode of 10 to 20 months of higher number of news
