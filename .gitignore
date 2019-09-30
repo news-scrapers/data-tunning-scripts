@@ -12,6 +12,7 @@
 *.out
 .env
 resultsSuicide.json
+resultsSuicideWithAnalysis.json
 node_modules
 sentiment-analysis-news-node/node_modules/
 sentiment-analysis-news-node/node_modules

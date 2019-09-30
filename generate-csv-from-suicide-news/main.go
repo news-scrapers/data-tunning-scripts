@@ -10,7 +10,9 @@ import (
 )
 
 func GenerateCsvFromSuicideNews() {
-	excludedWords := []string{"atentado", "Atentado", "atentar", "Atentar", "terrorista", "Terrorista", "inmola", "Inmola"}
+	//excludedWords := []string{"atentado", "Atentado", "atentar", "Atentar", "terrorista", "Terrorista", "inmola", "Inmola"}
+
+	excludedWords := []string{}
 
 	scrapedNewsWithSuicide := models.FindAllFromFilteredCollection()
 	accumulator := make(map[string]models.MonthNewsResult)
