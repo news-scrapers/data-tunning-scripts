@@ -21,6 +21,11 @@ type NewScraped struct {
 	NewsPaper string    `json:"newspaper"`
 	ScraperID string    `json:"scraper_id" bson:"scraper_id"`
 	ID        string    `json:"id"`
+	SentimentAnalysis Sentiment `json:"sentiment_analysis"`
+}
+
+type Sentiment struct {
+	Comparative        float64    `json:"comparative"`
 }
 
 type SearchResults struct {
