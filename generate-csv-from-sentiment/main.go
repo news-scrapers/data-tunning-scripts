@@ -13,6 +13,7 @@ import (
 )
 
 func GenerateCsvFromSuicideNewsWithSentiment() {
+	excludedWords := []string{"atentado", "Atentado", "atentar", "Atentar", "terrorista", "Terrorista", "inmola", "Inmola"}
 
 	accumulator := make(map[string]models.MonthNewsResultWithSentiment)
 	root := "../data/processed/processed_news_suicide_data/resultsSuicide/"
@@ -26,6 +27,7 @@ func GenerateCsvFromSuicideNewsWithSentiment() {
 		result := models.NewScraped{}
 	
 		_ = json.Unmarshal([]byte(file), &result)
+		if contaisExcluded(result.Content, excludedWords) == false {
 		monthCode, month, year := generateMonthCode(result.Date)
 			fmt.Println("adding new result on " + monthCode)
 			if val, ok := accumulator[monthCode]; ok {
@@ -35,6 +37,7 @@ func GenerateCsvFromSuicideNewsWithSentiment() {
 			} else {
 				accumulator[monthCode] = models.MonthNewsResultWithSentiment{MonthCode: monthCode, Month: month, Year: year, NumberOfSuicideNews: 1}
 			}
+		}
 		
         return nil
 	})
@@ -75,6 +78,7 @@ func sortCsv(csv string) string {
 	sort.Strings(csvSlice)
 	return strings.Join(csvSlice, "\n")
 }
+
 
 
 func main() {
