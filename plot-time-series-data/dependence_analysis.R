@@ -24,6 +24,11 @@ plot(all_data$noticias_suicidio, all_data$suicidios, col = "blue", main = "", xl
 lm(all_data$noticias_suicidio ~ all_data$suicidios)
 abline(lm(all_data$noticias_suicidio ~ all_data$suicidios))
 
+
+plot(all_data$media_sentimiento_noticias, all_data$suicidios, col = "blue", main = "", xlab = "sentimiento noticias suicidio", ylab = "suicidios")
+lm(all_data$media_sentimiento_noticias ~ all_data$suicidios)
+abline(lm(all_data$media_sentimiento_noticias ~ all_data$suicidios))
+
 # Pearson correlation: not significative, although it is not the best method since we are
 # working with temporal series
 
