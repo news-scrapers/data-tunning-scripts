@@ -44,7 +44,10 @@ def main():
     no_id = True
 
     results = read_mongo(db, collection, query, host, port, username, password, no_id)
-    print(results)
+    results['month'] = results.date.map(lambda x: x.strftime('%Y-%m-01'))
+    count = results.groupby(['month'])['month'].agg('count').to_frame('count').reset_index()
+
+    print(count)
 
 if __name__== "__main__":
   main()
