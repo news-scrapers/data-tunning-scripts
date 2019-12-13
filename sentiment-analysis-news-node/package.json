@@ -12,7 +12,7 @@
   "dependencies": {
     "install": "^0.13.0",
     "multilang-sentiment": "^1.2.0",
-    "npm": "^6.11.3",
+    "npm": "^6.13.4",
     "sentiment": "^5.0.1",
     "sentiment-spanish": "0.0.8"
   }
